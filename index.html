@@ -2,81 +2,124 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Modern Calculator</title>
+  <title>Scientific Calculator</title>
   <style>
     body {
-      background: #f3f4f6;
+      background-color: #1f2937;
+      color: white;
       font-family: 'Segoe UI', sans-serif;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
       margin: 0;
     }
     .calculator {
-      background: white;
-      padding: 20px 30px;
+      background-color: #111827;
+      padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      width: 320px;
     }
-    input, select, button {
+    input {
+      width: 100%;
+      font-size: 1.5rem;
       padding: 10px;
-      margin: 10px 5px;
-      font-size: 1rem;
-    }
-    button {
-      background-color: #2563eb;
-      color: white;
+      margin-bottom: 15px;
+      text-align: right;
+      background: #e5e7eb;
       border: none;
       border-radius: 5px;
+      color: black;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    button {
+      padding: 15px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: #374151;
+      color: white;
       cursor: pointer;
     }
     button:hover {
-      background-color: #1d4ed8;
+      background-color: #4b5563;
     }
-    #result {
-      margin-top: 15px;
-      font-size: 1.2rem;
-      font-weight: bold;
+    button.equal {
+      grid-column: span 2;
+      background-color: #2563eb;
+    }
+    button.equal:hover {
+      background-color: #1d4ed8;
     }
   </style>
 </head>
 <body>
   <div class="calculator">
-    <h2>Simple Calculator</h2>
-    <input id="num1" type="number" placeholder="First number">
-    <select id="operator">
-      <option value="+">+</option>
-      <option value="-">−</option>
-      <option value="*">×</option>
-      <option value="/">÷</option>
-    </select>
-    <input id="num2" type="number" placeholder="Second number">
-    <br>
-    <button onclick="calculate()">Calculate</button>
-    <p id="result"></p>
+    <input type="text" id="display" readonly>
+    <div class="buttons">
+      <button onclick="append('7')">7</button>
+      <button onclick="append('8')">8</button>
+      <button onclick="append('9')">9</button>
+      <button onclick="append('/')">÷</button>
+
+      <button onclick="append('4')">4</button>
+      <button onclick="append('5')">5</button>
+      <button onclick="append('6')">6</button>
+      <button onclick="append('*')">×</button>
+
+      <button onclick="append('1')">1</button>
+      <button onclick="append('2')">2</button>
+      <button onclick="append('3')">3</button>
+      <button onclick="append('-')">−</button>
+
+      <button onclick="append('0')">0</button>
+      <button onclick="append('.')">.</button>
+      <button onclick="calculate()" class="equal">=</button>
+      <button onclick="append('+')">+</button>
+
+      <button onclick="append('Math.sin(')">sin</button>
+      <button onclick="append('Math.cos(')">cos</button>
+      <button onclick="append('Math.tan(')">tan</button>
+      <button onclick="clearDisplay()">C</button>
+
+      <button onclick="append('Math.log(')">log</button>
+      <button onclick="append('Math.LN2')">ln 2</button>
+      <button onclick="append('Math.sqrt(')">√</button>
+      <button onclick="append('Math.pow(')">xʸ</button>
+
+      <button onclick="append('Math.PI')">π</button>
+      <button onclick="append('Math.E')">e</button>
+      <button onclick="backspace()">⌫</button>
+      <button onclick="append(')')">)</button>
+    </div>
   </div>
 
   <script>
+    const display = document.getElementById("display");
+
+    function append(value) {
+      display.value += value;
+    }
+
     function calculate() {
-      let num1 = parseFloat(document.getElementById('num1').value);
-      let num2 = parseFloat(document.getElementById('num2').value);
-      let op = document.getElementById('operator').value;
-      let result;
-
-      if (isNaN(num1) || isNaN(num2)) {
-        result = "Please enter valid numbers.";
-      } else {
-        switch (op) {
-          case '+': result = num1 + num2; break;
-          case '-': result = num1 - num2; break;
-          case '*': result = num1 * num2; break;
-          case '/': result = num2 !== 0 ? num1 / num2 : "Cannot divide by zero"; break;
-        }
+      try {
+        display.value = eval(display.value);
+      } catch {
+        display.value = "Error";
       }
+    }
 
-      document.getElementById('result').innerText = "Result: " + result;
+    function clearDisplay() {
+      display.value = "";
+    }
+
+    function backspace() {
+      display.value = display.value.slice(0, -1);
     }
   </script>
 </body>
