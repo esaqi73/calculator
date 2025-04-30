@@ -11,7 +11,7 @@
   <script>
     async function getGoldPrice() {
       try {
-        const res = await fetch('https://metals-api.com/api/latest?access_key=YOUR_API_KEY&base=XAU&symbols=OMR');
+        const url = 'https://api.metals.dev/v1/latest?api_key=RC5DAHULXR51VMJ8QTAL126J8QTAL&currency=USD&unit=toz';
         const data = await res.json();
         const price = data.rates.OMR;
         document.getElementById('gold-omr').innerText = price.toFixed(2);
