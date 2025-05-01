@@ -42,7 +42,10 @@
   try {
     const response = await fetch('https://api.metals.dev/v1/latest?api_key=RC5DAHULXR51VMJ8QTAL126J8QTAL&currency=USD&unit=toz');
     const data = await response.json();
-    const goldPriceUSD = data.rates.XAU;
+
+    console.log("API Response:", data); // 👈 See what's actually returned
+
+    const goldPriceUSD = data.rates.XAU; // might be undefined if data.rates doesn't exist
 
     const exchangeResponse = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
     const exchangeData = await exchangeResponse.json();
