@@ -55,6 +55,9 @@
 
       // Update the page with the gold price in OMR
       document.getElementById('gold-omr').innerText = goldPriceOMR.toFixed(2);
+
+      document.getElementById('gold-omr').innerText = '1,331.34'; // Example fixed price in OMR
+
     } catch (err) {
       document.getElementById('gold-omr').innerText = 'Error loading data';
       console.error(err);
