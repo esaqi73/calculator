@@ -38,20 +38,31 @@
   <p>Gold (1 oz): <span id="gold-omr">Loading...</span> OMR</p>
 
   <script>
-    async function getGoldPrice() {
-      try {
-        const response = await fetch('https://api.metals.dev/v1/latest?api_key=RC5DAHULXR51VMJ8QTAL126J8QTAL&currency=OMR&unit=toz');
-        const data = await response.json();
-        const price = data.rates.XAU; // XAU is the symbol for gold
-        document.getElementById('gold-omr').innerText = price.toFixed(2);
-      } catch (err) {
-        document.getElementById('gold-omr').innerText = 'Error loading data';
-        console.error(err);
-      }
-    }
+  async function getGoldPrice() {
+    try {
+      // Fetch gold price in USD
+      const goldResponse = await fetch('https://api.metals.dev/v1/latest?api_key=RC5DAHULXR51VMJ8QTAL126J8QTAL&currency=USD&unit=toz');
+      const goldData = await goldResponse.json();
+      const goldPriceUSD = goldData.rates.XAU;
 
-    getGoldPrice();
-    setInterval(getGoldPrice, 60000); // refresh every 60 seconds
-  </script>
+      // Fetch USD to OMR exchange rate
+      const exchangeResponse = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+      const exchangeData = await exchangeResponse.json();
+      const usdToOmr = exchangeData.rates.OMR;
+
+      // Calculate gold price in OMR
+      const goldPriceOMR = goldPriceUSD * usdToOmr;
+
+      // Update the page with the gold price in OMR
+      document.getElementById('gold-omr').innerText = goldPriceOMR.toFixed(2);
+    } catch (err) {
+      document.getElementById('gold-omr').innerText = 'Error loading data';
+      console.error(err);
+    }
+  }
+
+  getGoldPrice();
+  setInterval(getGoldPrice, 60000); // refresh every 60 seconds
+</script>
 </body>
 </html>
