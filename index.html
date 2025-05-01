@@ -11,9 +11,9 @@
   <script>
     async function getGoldPrice() {
       try {
-        const url = 'https://api.metals.dev/v1/latest?api_key=RC5DAHULXR51VMJ8QTAL126J8QTAL&currency=USD&unit=toz';
-        const data = await res.json();
-        const price = data.rates.OMR;
+        const response = await fetch('https://api.metals.dev/v1/latest?api_key=RC5DAHULXR51VMJ8QTAL126J8QTAL&currency=OMR&unit=toz');
+        const data = await response.json();
+        const price = data.rates.XAU; // Assuming gold is listed under "XAU"
         document.getElementById('gold-omr').innerText = price.toFixed(2);
       } catch (err) {
         document.getElementById('gold-omr').innerText = 'Error loading data';
